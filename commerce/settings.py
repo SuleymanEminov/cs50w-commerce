@@ -122,4 +122,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'auctions/media/auctions/images')
+MEDIA_URL = '/images/'
+
 # DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+
+CURRENCIES = ('USD',)

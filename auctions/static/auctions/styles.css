@@ -1,3 +1,8 @@
 body {
     padding: 10px;
 }
+
+#listing_image {
+    width: 178px;
+    height: 178px;
+}
