@@ -4,7 +4,7 @@
 
     {% for category in categories %}
         <ul>
-            <li><a href="{% url 'category_listings' category.name %}">{{category}}</a></li>
+            <li><a href="{% url 'category_listings' category %}">{{category}}</a></li>
         </ul>
     {% endfor %}
 

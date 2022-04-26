@@ -4,5 +4,11 @@ body {
 
 #listing_image {
     width: 178px;
-    height: 178px;
+    height: auto;
+    position: relative;
+}
+
+#frame {
+    width: 200;
+    height: auto;
 }
