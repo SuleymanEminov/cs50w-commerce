@@ -3,6 +3,6 @@
 ## steps to run the project
 If you are using Windows:
 run 
-'''bash 
+```bash 
 pip install -r requirements.txt
-'''
+```
