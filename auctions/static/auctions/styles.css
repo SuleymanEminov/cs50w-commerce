@@ -8,7 +8,8 @@ body {
     position: relative;
 }
 
-#frame {
-    width: 200;
-    height: auto;
+.home a {
+    color: black;
+    text-decoration: none;
+
 }

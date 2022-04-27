@@ -8,7 +8,11 @@
         <link rel="stylesheet" href="{% static 'auctions/styles.css' %}">
     </head>
     <body>
-        <h1>Auctions</h1>
+        <div class="home">
+            <a href="{%url 'index' %}">
+                <h1>Auctions</h1>
+            </a>
+        </div>
         <div>
             {% if user.is_authenticated %}
                 Signed in as <strong>{{ user.username }}</strong>.
@@ -28,7 +32,7 @@
                     <a class="nav-link" href="{% url 'create_listing' %}">Create New Listing</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'watchlist' %}">watchlist</a>
+                    <a class="nav-link" href="{% url 'watchlist' %}">My Watchlist</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>

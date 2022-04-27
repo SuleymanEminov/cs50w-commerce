@@ -1,36 +1,51 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
+<div class="d-flex justify-content-center flex-nowrap">
+        {% if title %}
+            <h2 class="display-4">{{title.capitalize}} Listings</h2>
+        {%else%}
+            <h2 class="display-4">Active Listings</h2>
+        {%endif%}
 
+    </div>
     {% for listing in listings %}
         {% if listing.active == True %}
         <div class="container border border-primary mb-3">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3 pt-2 ">
                             {% if listing.image %}
                                 <img src="{{listing.image.url }}" alt="{{listing.title}}" id="listing_image" class="rounded">
                             {% else %}
                                 {% load static %}
-                                <img src="{% static 'auctions/img/no_image_available.png' %}" alt="No Image Available">
+                                <img src="{% static 'auctions/img/no_image_available.png' %}" alt="No Image Available" id="listing_image">
                             {% endif %}
                         </div>
-                        <div class="col">
+                        <div class="col pt-2">
                             <h4> <a class="col-sm" href="{% url 'listing_view' listing.id %}" id="listing_title">{{listing.title}}</a></h4>
                             <p class="col-sm"><strong>Price:</strong> {{listing.price}}</p>
                             <p class="col-sm"><strong>Description:</strong> {{listing.description}}</p>
                             <p class="col-sm">Created: {{listing.created_time}}</p>
                             <p class="col-sm">Added by: {{listing.user}}</p>
                             <p class="col-sm">Category: {{listing.category}}</p>
+                            {%if user.is_authenticated %}
                             <div class="col" >
-                                <input type="button" class="btn btn-primary mb-3" value="Add to Watchlist">
+                                <form method="POST" action="{% url 'add_to_watchlist' listing.id %}" class="form-inline">
+                                    {% csrf_token%}
+                                    {% if listing in request.user.watchlist.all %}
+                                        <input class="btn btn-secondary btn-sm mb-2" type="submit" value="Remove from Watchlist" />
+                                    {% else %}
+                                        <input class="btn btn-secondary btn-sm mb-2" type="submit" value="Add to Watchlist" />
+                                    {% endif %}
+                                </form>
                             </div>
+                            {%endif%}
                         </div>
                     </div>
                 </div>     
         {% endif %}
     {% endfor %}
-    <!-- Create listing.html to allow user to see details of any listing
+    <!-- Create listing_view.html to allow user to see details of any listing
         *
     -->
 {% endblock %}

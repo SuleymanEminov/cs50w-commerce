@@ -1,14 +1,14 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <div class=" container mb-3">
+    <div class="container mb-3">
         <div class="row">
             <div class="border">
                 {% if listing.image %}
                             <img src="{{listing.image.url }}" alt="{{listing.title}}" id="listing_image" class="rounded">
                 {% else %}
                         {% load static %}
-                        <img src="{% static 'auctions/img/no_image_available.png' %}" alt="No Image Available">
+                        <img src="{% static 'auctions/img/no_image_available.png' %}" alt="No Image Available" id="listing_image" class="rounded">
                 {% endif %}
             </div>
             <div class="col">
@@ -16,8 +16,8 @@
                 <p class="col-sm"><strong>Price:</strong> {{listing.price}}</p>
                 <p class="col-sm"><strong>Description:</strong> {{listing.description}}</p>
                 <p class="col-sm">Created: {{listing.created_time}}</p>
-                            <p class="col-sm">Added by: {{listing.user}}</p>
-                            <p class="col-sm">Category: {{listing.category}}</p>
+                <p class="col-sm">Added by: {{listing.user}}</p>
+                <p class="col-sm">Category: {{listing.category}}</p>
             </div>
 
         </div>
