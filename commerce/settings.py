@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'auctions',
     'djmoney',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -129,3 +130,5 @@ MEDIA_URL = '/images/'
 
 
 CURRENCIES = ('USD',)
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

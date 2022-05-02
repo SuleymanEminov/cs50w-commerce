@@ -14,15 +14,12 @@ class ListingForm(forms.ModelForm):
             super(ListingForm, self).__init__(*args, **kwargs)
             for visible in self.visible_fields():
                 visible.field.widget.attrs['class'] = 'form-control'
-        # widgets = {
-        #     'title': forms.TextInput(label='',attrs={
-        #         "class":"form-control mt-4",
-        #         "id":"exampleFormControlTextarea1"}),
-        #     'description': forms.Textarea(attrs={
-        #         'cols': 80, 
-        #         'rows': 7, 
-        #         'class':"form-group",
-        #         "id": "exampleFormControlTextarea1"}),
-        # }
+        
+
+class CommentForm(forms.ModelForm):
+    " Form for Comments "
+    class Meta:
+        model = Comment
+        fields = ('body',)
 
 

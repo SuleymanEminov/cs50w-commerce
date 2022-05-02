@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from ..models import User
 from ..forms import *
 
+@login_required
 def add_to_watchlist(request, id):
     """add listing to user's watchlist"""
     if request.method == "POST":
@@ -20,7 +21,7 @@ def add_to_watchlist(request, id):
     url = reverse('listing_view', kwargs={'id': id})
     return HttpResponseRedirect(url)
 
-
+@login_required
 def watchlist(request):
     '''display watchlist'''
     return render(request, "auctions/index.html", {

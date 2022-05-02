@@ -9,8 +9,14 @@ class ListingAdmin(admin.ModelAdmin):
 class UserAdmin(admin.ModelAdmin):
     list_display = ('id', 'username','first_name','last_name', 'email')
 
-# class ImageAdmin(admin.ModelAdmin):
-#     list_display = ('id','image')
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'body', 'listing', 'created_on', 'active')
+    list_filter = ('active', 'created_on')
+    search_fields = ('user', 'body')
+    actions = ['approve_comments']
+
+    def approve_comments(self, request, queryset):
+        queryset.update(active=True)
 
 
 admin.site.register(User, UserAdmin)

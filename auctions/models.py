@@ -44,12 +44,18 @@ class Listing(models.Model):
         return f"{self.user}: {self.title}"
 
 class Comment(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comment')
-    comment = models.TextField()
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="listing_comment")
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
 
-    def __str__(self) -> str:
-        return f"{self.id}: {self.user} -- {self.comment}"
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.body, self.user)
+
 
 class Bid(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_bid')

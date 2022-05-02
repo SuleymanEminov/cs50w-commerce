@@ -1,3 +1,4 @@
 Django
 Pillow
 django-money
+django-crispy-forms
