@@ -23,7 +23,11 @@
                         </div>
                         <div class="col pt-2">
                             <h4> <a class="col-sm" href="{% url 'listing_view' listing.id %}" id="listing_title">{{listing.title}}</a></h4>
-                            <p class="col-sm"><strong>Price:</strong> {{listing.price}}</p>
+                            {% if listing.bids.all.count > 0%}
+                                <h4 class="col-sm"><strong>Auction Price:</strong> ${{listing.bids.first.amount}}</h4>
+                            {% else %}
+                                <h4 class="col-sm"><strong>Auction Price:</strong> ${{listing.price}}</h4>
+                            {% endif %}                            
                             <p class="col-sm"><strong>Description:</strong> {{listing.description}}</p>
                             <p class="col-sm">Created: {{listing.created_time}}</p>
                             <p class="col-sm">Added by: {{listing.user}}</p>

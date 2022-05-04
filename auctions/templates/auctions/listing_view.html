@@ -1,9 +1,16 @@
 {% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
+
 
 {% block body %}
     <div class="container mb-3">
+      {% if listing.active %}
+      {%else%}
+        <div class="alert alert-warning"><h2>Auction is Closed</h2></div>
+      {%endif%}
         <div class="row">
             <div >
+              <!-- details -->
                 {% if listing.image %}
                             <img src="{{listing.image.url }}" alt="{{listing.title}}" id="listing_image" class="rounded">
                 {% else %}
@@ -13,7 +20,11 @@
             </div>
             <div class="col">
                 <h1>{{listing.title}}</h1>
-                <p class="col-sm"><strong>Price:</strong> {{listing.price}}</p>
+                {% if listing.bids.all.count > 0%}
+                  <h4 class="col-sm"><strong>Auction Price:</strong> ${{listing.bids.first.amount}}</h4>
+                {% else %}
+                  <h4 class="col-sm"><strong>Auction Price:</strong> ${{listing.price}}</h4>
+                {% endif %}
                 <p class="col-sm"><strong>Description:</strong> {{listing.description}}</p>
                 <p class="col-sm">Created: {{listing.created_time}}</p>
                 <p class="col-sm">Added by: {{listing.user}}</p>
@@ -21,9 +32,92 @@
                 <p>{{lisitng.comment}}</p>
             </div>
 
+            <div class="col">
+              <!-- Watchlist -->
+              {% if user.is_authenticated and listing.active %}
+      				<div class="col-md-6 col-sm-6">
+                <form method="POST" action="{% url 'add_to_watchlist' listing.id %}" class="form-inline">
+                  {% csrf_token%}
+                  {% if listing in request.user.watchlist.all %}
+                      <input class="btn btn-secondary btn-sm mb-2" type="submit" value="Remove from Watchlist" />
+                  {% else %}
+                      <input class="btn btn-secondary btn-sm mb-2" type="submit" value="Add to Watchlist" />
+                  {% endif %}
+              </form>
+      				</div>
+              {%endif%}
+              <!-- Bidding -->
+              {% if user.is_authenticated %}
+      				<div class="col-md-6 col-sm-6">
+                <h4 class="py-2 pt-4">Bids <span class="badge badge-secondary badge-pill mx-1">{{ listing.bids.count }}</span></h4>
+                {% if listing.bids.first.user == request.user %}
+                  {% if listing.active %}
+                    <p>Your bid is the current bid.</p>
+                  {% else %}
+                    <b>You won the auction!</b>
+                  {% endif %}
+                {% endif %}
+                  {% if listing.active %}
+                  {%if message %}
+                    <div class="alert alert-warning">{{message}}</div>
+                  {%endif%}
+                  <form action="{%url 'listing_bidding' listing.id%}" method="post">
+                    {%csrf_token%}
+                    <div class="form-group">
+                      {{bidding_form | crispy}}
+
+                    </div>
+                    <input type="submit" class="btn btn-primary right" value="BID NOW">
+                  </form>
+                  {%endif%}
+                  {% if bidding_error %}
+                    <div class="alert alert-warning"><p>Error. Try higher amount.</p></div>
+                  {%endif%}
+                </div>
+              {%endif%}
+      				
+      			</div>
+            
+
         </div>
+        <div class="col pt-4">
+          {% if request.user == listing.user and not ended %}
+            <form method="POST" action= "{% url 'close_auction' listing.id %}">
+              {% csrf_token %}
+              <input class="btn btn-danger" type="submit" value="End Auction" />
+            </form>
+          {% endif %}
+          
+        </div>
+        <!-- divider -->
+        <hr class="solid">
+
+        <!-- Comments -->
+        <h3 class="py-4">Comments <span class="badge badge-secondary badge-pill mx-1">{{ listing.comments.count }}</span></h3>
+        
+
+        <!-- post comment -->
+        {%if user.is_authenticated %}
+        <div class="card-body">
+            {% if new_comment %}
+            <div class="alert alert-success" role="alert">
+              Your comment is awaiting moderation
+            </div>
+            {% else %}
+            <h3>Leave a comment</h3>
+            <form method="post" action="{% url 'post_comment' listing.id %}" style="margin-top: 1.3em;">
+              {{ comment_form | crispy }}
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary  btn-lg">Post Comment</button>
+            </form>
+            {% endif %}
+          </div>
+        {%else%}
+          <p>log in to comment</p>
+        {%endif%}
+
         <div>
-            <!-- Comments -->
+          <!-- list all comments -->
             {% for comment in comments %}
             <div class="comments" style="padding: 10px;">
               <p class="font-weight-bold">
@@ -36,22 +130,6 @@
             </div>
             {% endfor %}
         </div>
-
-        <div class="card-body">
-            {% if new_comment %}
-            <div class="alert alert-success" role="alert">
-              Your comment is awaiting moderation
-            </div>
-            {% else %}
-            <h3>Leave a comment</h3>
-            {% load crispy_forms_tags %}
-            <form method="post" action="{% url 'post_comment' listing.id %}" style="margin-top: 1.3em;">
-              {{ comment_form | crispy }}
-              {% csrf_token %}
-              <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
-            </form>
-            {% endif %}
-          </div>
 
     </div>
 

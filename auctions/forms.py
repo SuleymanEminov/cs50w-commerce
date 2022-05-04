@@ -1,3 +1,4 @@
+from attr import field
 from django import forms
 from .models import *
   
@@ -21,5 +22,12 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('body',)
+
+
+class BiddingForm(forms.ModelForm):
+    "Bidding form"
+    class Meta:
+        model = Bid
+        fields = ['amount',]
 
 
