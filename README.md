@@ -20,10 +20,19 @@ run
 ```
 pip3 install -r requirements.txt
 ```
-3. Run makemigrations: `python3 manage.py makemigrations`
-4. Migrate: `python3 manage.py migrate`
-5. Run the application: `python3 manage.py runserver`
+3. Run makemigrations: 
+```
+python3 manage.py makemigrations
+```
+4. Migrate: 
+```
+python3 manage.py migrate
+```
+5. Run the application: 
+```
+python3 manage.py runserver
+```
 
 ---
 
-_This Project was completed with ❤️ by [Suleyman Eminov](https://www.linkedin.com/in/suleyman-eminov/)_
+_This Project was developed with ❤️ by [Suleyman Eminov](https://www.linkedin.com/in/suleyman-eminov/)_
