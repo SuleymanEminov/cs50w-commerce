@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'auctions',
-    'djmoney',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
